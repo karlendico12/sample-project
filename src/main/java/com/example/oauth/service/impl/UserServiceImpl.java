@@ -24,7 +24,8 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder,
+    public UserServiceImpl(UserRepository userRepository,
+            BCryptPasswordEncoder bCryptPasswordEncoder,
             RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -32,14 +33,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User registerUser(UserDto userDto) {
+    public UserDto registerUser(UserDto userDto) {
         User user = userRepository.findByUserName(userDto.getUserName());
         if(user != null) {
-            throw new HttpServerErrorException(HttpStatus.NOT_ACCEPTABLE, "User already exists " + userDto.getUserName());
+            throw new HttpServerErrorException(HttpStatus.NOT_ACCEPTABLE,
+                "User already exists " + userDto.getUserName());
         }
         User newUser = convertToUser(userDto);
         newUser = userRepository.save(newUser);
-        return newUser;
+        UserDto newUserDto = convertToUserDto(newUser);
+        return newUserDto;
     }
 
     private User convertToUser(UserDto userDto){
@@ -58,5 +61,27 @@ public class UserServiceImpl implements UserService {
             roles.add(roleRepository.findById(roleDto.getId()).get());
         }
         return roles;
+    }
+
+    private UserDto convertToUserDto(User user){
+        UserDto newUserDto = new UserDto();
+        newUserDto.setUserId(user.getId());
+        newUserDto.setFirstName(user.getFirstName());
+        newUserDto.setLastName(user.getLastName());
+        newUserDto.setUserName(user.getUserName());
+        newUserDto.setRoles(convertToRoleDto(user.getRoles()));
+        return newUserDto;
+    }
+
+    private List<RoleDto> convertToRoleDto(List<Role> roles){
+        List<RoleDto> roleDtos = new ArrayList<>();
+        for(Role role : roles){
+            RoleDto roleDto = new RoleDto();
+            roleDto.setId(role.getId());
+            roleDto.setDescription(role.getDescription());
+            roleDto.setRoleName(role.getRoleName());
+            roleDtos.add(roleDto);
+        }
+        return roleDtos;
     }
 }

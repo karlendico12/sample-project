@@ -34,9 +34,9 @@ public class ResourceController {
     @PostMapping("/register")
     @ApiOperation("Register")
     public ResponseEntity registrationProcessing(HttpServletRequest req, @Valid @RequestBody UserDto userDto) {
-        User newUser = userService.registerUser(userDto);
+        UserDto newUserDto = userService.registerUser(userDto);
 
-        return new ResponseEntity(HttpStatus.OK, "Success Register", newUser);
+        return new ResponseEntity(HttpStatus.OK, "Success Register", newUserDto);
 
 
     }
