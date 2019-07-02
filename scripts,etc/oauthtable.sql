@@ -18,35 +18,43 @@ USE `test_oauth`;
 
 -- Dumping structure for table test_oauth.app_role
 CREATE TABLE IF NOT EXISTS `app_role` (
-  `id` bigint(20) NOT NULL,
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `description` varchar(255) DEFAULT NULL,
   `role_name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table test_oauth.app_role: ~2 rows (approximately)
 /*!40000 ALTER TABLE `app_role` DISABLE KEYS */;
 INSERT INTO `app_role` (`id`, `description`, `role_name`) VALUES
-	(1, 'STANDARD_USER', 'STANDARD_USER'),
-	(2, 'ADMIN_USER', 'ADMIN_USER');
+	(1, 'admin', 'ADMIN_USER'),
+	(2, 'standard user', 'REG_USER');
 /*!40000 ALTER TABLE `app_role` ENABLE KEYS */;
 
 -- Dumping structure for table test_oauth.app_user
 CREATE TABLE IF NOT EXISTS `app_user` (
   `id` bigint(20) NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `username` varchar(255) NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_oauth.app_user: ~2 rows (approximately)
+-- Dumping data for table test_oauth.app_user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `app_user` DISABLE KEYS */;
-INSERT INTO `app_user` (`id`, `first_name`, `last_name`, `password`, `username`) VALUES
-	(1, 'John', 'Doe', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'karl.endico'),
-	(2, 'Admin', 'Admin', '$2a$10$qtH0F1m488673KwgAfFXEOWxsoZSeHqqlB/8BTt3a6gsI5c2mdlfe', 'admin.admin');
 /*!40000 ALTER TABLE `app_user` ENABLE KEYS */;
+
+-- Dumping structure for table test_oauth.hibernate_sequence
+CREATE TABLE IF NOT EXISTS `hibernate_sequence` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Dumping data for table test_oauth.hibernate_sequence: ~1 rows (approximately)
+/*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
+INSERT INTO `hibernate_sequence` (`next_val`) VALUES
+	(5);
+/*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 
 -- Dumping structure for table test_oauth.oauth_access_token
 CREATE TABLE IF NOT EXISTS `oauth_access_token` (
@@ -59,7 +67,7 @@ CREATE TABLE IF NOT EXISTS `oauth_access_token` (
   `refresh_token` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_oauth.oauth_access_token: ~2 rows (approximately)
+-- Dumping data for table test_oauth.oauth_access_token: ~0 rows (approximately)
 /*!40000 ALTER TABLE `oauth_access_token` DISABLE KEYS */;
 /*!40000 ALTER TABLE `oauth_access_token` ENABLE KEYS */;
 
@@ -115,27 +123,9 @@ CREATE TABLE IF NOT EXISTS `oauth_refresh_token` (
   `authentication` blob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_oauth.oauth_refresh_token: ~11 rows (approximately)
+-- Dumping data for table test_oauth.oauth_refresh_token: ~0 rows (approximately)
 /*!40000 ALTER TABLE `oauth_refresh_token` DISABLE KEYS */;
 /*!40000 ALTER TABLE `oauth_refresh_token` ENABLE KEYS */;
-
--- Dumping structure for table test_oauth.random_city
-CREATE TABLE IF NOT EXISTS `random_city` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Dumping data for table test_oauth.random_city: ~6 rows (approximately)
-/*!40000 ALTER TABLE `random_city` DISABLE KEYS */;
-INSERT INTO `random_city` (`id`, `name`) VALUES
-	(1, 'Bamako'),
-	(2, 'Nonkon'),
-	(3, 'Houston'),
-	(4, 'Toronto'),
-	(5, 'New York City'),
-	(6, 'Mopti');
-/*!40000 ALTER TABLE `random_city` ENABLE KEYS */;
 
 -- Dumping structure for table test_oauth.user_role
 CREATE TABLE IF NOT EXISTS `user_role` (
@@ -147,12 +137,8 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   CONSTRAINT `FKa68196081fvovjhkek5m97n3y` FOREIGN KEY (`role_id`) REFERENCES `app_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table test_oauth.user_role: ~2 rows (approximately)
+-- Dumping data for table test_oauth.user_role: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
-INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
-	(1, 1),
-	(2, 1),
-	(2, 2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

@@ -1,16 +1,14 @@
 package com.example.oauth.controller;
 
+import com.example.oauth.dto.UserDto;
 import com.example.oauth.model.User;
-import com.example.oauth.repo.UserRepository;
+import com.example.oauth.response.ResponseEntity;
+import com.example.oauth.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -18,39 +16,27 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/jwttest")
 public class ResourceController {
-    @Autowired
-    private TokenEndpoint tokenEndpoint;
+    private UserService userService;
 
     @Autowired
-    private TokenStore tokenStore;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @RequestMapping(value = "/cities")
-    @PreAuthorize("hasAuthority('ADMIN_USER') or hasAuthority('STANDARD_USER')")
-    public String getUser() {
-        return "getUser()";
+    public ResourceController(UserService userService){
+        this.userService = userService;
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @GetMapping("/users")
+    @ApiOperation("Test API Only")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public String getUsers() {
-        return "karlpogi";
+        return "success";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public User registrationProcessing(HttpServletRequest req, @Valid @RequestBody User user) {
-        User newUser = new User();
-        newUser.setFirstName(user.getFirstName());
-        newUser.setLastName(user.getLastName());
-        newUser.setUserName(user.getUserName());
 
-        String encodedPassword = new BCryptPasswordEncoder().encode("XY7kmzoNzl100");
-        newUser.setPassword(encodedPassword);
-        System.out.println(encodedPassword);
+    @PostMapping("/register")
+    @ApiOperation("Get Cart")
+    public ResponseEntity registrationProcessing(HttpServletRequest req, @Valid @RequestBody UserDto userDto) {
+        User newUser = userService.registerUser(userDto);
 
-        return newUser;
+        return new ResponseEntity(HttpStatus.OK, "Success Register", newUser);
 
 
     }

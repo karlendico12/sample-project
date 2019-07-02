@@ -31,6 +31,8 @@ dependencies {
     implementation "com.sun.xml.bind:jaxb-core:2.2.11"
     implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
     implementation "javax.activation:activation:1.1.1"
+    implementation 'io.springfox:springfox-swagger2:2.9.2'
+    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     compile 'org.mariadb.jdbc:mariadb-java-client'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
