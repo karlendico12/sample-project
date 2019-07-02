@@ -24,7 +24,7 @@ public class ResourceController {
     }
 
     @GetMapping("/users")
-    @ApiOperation("Test API Only")
+    @ApiOperation("Test API")
     @PreAuthorize("hasAuthority('ADMIN_USER')")
     public String getUsers() {
         return "success";
@@ -32,7 +32,7 @@ public class ResourceController {
 
 
     @PostMapping("/register")
-    @ApiOperation("Get Cart")
+    @ApiOperation("Register")
     public ResponseEntity registrationProcessing(HttpServletRequest req, @Valid @RequestBody UserDto userDto) {
         User newUser = userService.registerUser(userDto);
 
