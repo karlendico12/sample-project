@@ -31,6 +31,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/actuator/**", "/api-docs/**","/oauth/*", "/register").permitAll()
             .antMatchers("/jwttest/users" ).authenticated()
-            .antMatchers("/jwttest/register" ).permitAll();
+            .antMatchers("/jwttest/register" ).permitAll()
+            .antMatchers("/jwttest/getTokensSample" ).permitAll();
     }
 }

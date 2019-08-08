@@ -11,10 +11,13 @@ import com.example.oauth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -22,14 +25,23 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private RoleRepository roleRepository;
+    private TokenStore tokenStore;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository,
             BCryptPasswordEncoder bCryptPasswordEncoder,
-            RoleRepository roleRepository) {
+            RoleRepository roleRepository,
+            TokenStore tokenStore) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.tokenStore = tokenStore;
+    }
+
+    @Override
+    public Collection<OAuth2AccessToken> getAccessTokens(String userName, String clientId){
+        Collection<OAuth2AccessToken> tokens = tokenStore.findTokensByClientIdAndUserName(clientId, userName);
+        return tokens;
     }
 
     @Override

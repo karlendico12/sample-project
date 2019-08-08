@@ -30,15 +30,18 @@ public class ResourceController {
         return "success";
     }
 
-
     @PostMapping("/register")
     @ApiOperation("Register")
     public ResponseEntity registrationProcessing(HttpServletRequest req, @Valid @RequestBody UserDto userDto) {
         UserDto newUserDto = userService.registerUser(userDto);
-
         return new ResponseEntity(HttpStatus.OK, "Success Register", newUserDto);
-
-
     }
 
+    @GetMapping("/getTokensSample")
+    @ApiOperation("Register")
+    public ResponseEntity getTokens(HttpServletRequest req,  @RequestParam(name = "cliendId") String cliendId,
+            @RequestParam(name = "userName") String userName) {
+        return new ResponseEntity(HttpStatus.OK, "Success",
+            userService.getAccessTokens(userName, cliendId));
+    }
 }
